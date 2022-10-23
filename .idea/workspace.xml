@@ -1,40 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="013b3a55-306c-4d57-a087-3d0810fd53ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java2-asm1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q4_6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q5_6.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q6_1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q6_2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q6_3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q6_4.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/answers_local/Q6_5.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/imdb_top_500.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MovieAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/MethodEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/MovieAnalyzerLocalTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="013b3a55-306c-4d57-a087-3d0810fd53ff" name="Changes" comment="commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -184,8 +151,16 @@
       <workItem from="1665878596741" duration="17035000" />
       <workItem from="1666349649624" duration="16468000" />
       <workItem from="1666409323000" duration="5933000" />
-      <workItem from="1666516567821" duration="4092000" />
+      <workItem from="1666516567821" duration="4448000" />
     </task>
+    <task id="LOCAL-00001" summary="commit">
+      <created>1666525345382</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1666525345382</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,5 +176,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
   </component>
 </project>

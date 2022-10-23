@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,8 +19,9 @@ class Movie {
     long Noofvotes; //Total number of votes
     long Gross; //Money earned by that movie
 
-    Movie(String Series_Title, int Released_Year, String Certificate, int Runtime, List<String> Genre, float IMDB_Rating,
-          String Overview, int Meta_score, String Director, String Star1, String Star2, String Star3, String Star4, long Noofvotes, long Gross) {
+    Movie(String Series_Title, int Released_Year, String Certificate, int Runtime,
+          List<String> Genre, float IMDB_Rating, String Overview, int Meta_score, String Director,
+          String Star1, String Star2, String Star3, String Star4, long Noofvotes, long Gross) {
         this.Series_Title = Series_Title;
         this.Released_Year = Released_Year;
         this.Certificate = Certificate;
@@ -143,7 +143,6 @@ public class MovieAnalyzer {
                 array = sb.toString().split("~");
                 arrayLen = array.length;
 
-//                System.out.println(array_len);
                 String Series_Title = array[1].replace("\"", "");
                 int Released_Year = Integer.parseInt(array[2]);
                 String Certificate = array[3];
@@ -155,9 +154,11 @@ public class MovieAnalyzer {
                 String Director = array[9];
                 String Star1 = array[10], Star2 = array[11], Star3 = array[12], Star4 = array[13];
                 long Noofvotes = Long.parseLong(array[14]);
-                long Gross = (arrayLen == 15 ? -1L : Long.parseLong(array[15].replace("\"", "").replace(",", "")));
-                Movie movie = new Movie(Series_Title, Released_Year, Certificate, Runtime, Genre, IMDB_Rating,
-                        Overview, Meta_score, Director, Star1, Star2, Star3, Star4, Noofvotes, Gross);
+                long Gross = (arrayLen == 15 ? -1L : Long.parseLong(array[15]
+                        .replace("\"", "").replace(",", "")));
+                Movie movie = new Movie(Series_Title, Released_Year, Certificate, Runtime, Genre,
+                        IMDB_Rating, Overview, Meta_score, Director,
+                        Star1, Star2, Star3, Star4, Noofvotes, Gross);
                 movieList.add(movie);
                 genreList.addAll(Genre);
             }
@@ -170,14 +171,16 @@ public class MovieAnalyzer {
     }
 
     public Map<Integer, Integer> getMovieCountByYear() {
-        return movieList.stream().collect(Collectors.groupingBy(Movie::getReleased_Year, TreeMap::new, Collectors.summingInt(e -> 1))).descendingMap();
+        return movieList.stream().collect(Collectors.groupingBy(Movie::getReleased_Year,
+                TreeMap::new, Collectors.summingInt(e -> 1))).descendingMap();
     }
 
     public Map<String, Integer> getMovieCountByGenre() {
         //todo//??
         TreeMap<String, Integer> res = new TreeMap<>();
         for (String genre : genreList) {
-            res.put(genre, (int) (movieList.stream().filter(movie -> movie.getGenre().contains(genre)).count()));
+            res.put(genre, (int) (movieList.stream()
+                    .filter(movie -> movie.getGenre().contains(genre)).count()));
         }
 
         return res.descendingMap();
@@ -195,17 +198,22 @@ public class MovieAnalyzer {
                     movie.getStarList().get(2).concat("~").concat(movie.getStarList().get(3)));
             list.forEach(names -> res.put(names, res.getOrDefault(names, 0) + 1));
         });
-        return res.entrySet().stream().collect(Collectors.toMap(stringIntegerEntry -> Arrays.asList(stringIntegerEntry.getKey().split("~")), Map.Entry::getValue));
+        return res.entrySet().stream().collect(Collectors.toMap(stringIntegerEntry ->
+                Arrays.asList(stringIntegerEntry.getKey().split("~")), Map.Entry::getValue));
     }
 
     public List<String> getTopMovies(int top_k, String by) {
         switch (by) {
             case "runtime":
-                return movieList.stream().sorted(Comparator.comparingInt(Movie::getRuntime).reversed()
-                        .thenComparing(Movie::getSeries_Title)).limit(top_k).map(Movie::getSeries_Title).toList();
+                return movieList.stream()
+                        .sorted(Comparator.comparingInt(Movie::getRuntime).reversed()
+                                .thenComparing(Movie::getSeries_Title))
+                        .limit(top_k).map(Movie::getSeries_Title).toList();
             case "overview":
-                return movieList.stream().sorted(Comparator.comparing(Movie::getOverview, (s1, s2) -> s2.length() - s1.length())
-                        .thenComparing(Movie::getSeries_Title)).limit(top_k).map(Movie::getSeries_Title).toList();
+                return movieList.stream()
+                        .sorted(Comparator.comparing(Movie::getOverview, (s1, s2) -> s2.length() - s1.length())
+                                .thenComparing(Movie::getSeries_Title))
+                        .limit(top_k).map(Movie::getSeries_Title).toList();
             default:
                 System.out.println("Wrong in getTopMovies: by:" + by);
                 return null;
@@ -234,34 +242,53 @@ public class MovieAnalyzer {
 
         switch (by) {
             case "rating":
-                Stream<InterEntry> s1 = movieList.stream().collect(Collectors.groupingBy(Movie::getStar1, Collectors.averagingDouble(Movie::getIMDB_Rating))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s2 = movieList.stream().collect(Collectors.groupingBy(Movie::getStar2, Collectors.averagingDouble(Movie::getIMDB_Rating))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s3 = movieList.stream().collect(Collectors.groupingBy(Movie::getStar3, Collectors.averagingDouble(Movie::getIMDB_Rating))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s4 = movieList.stream().collect(Collectors.groupingBy(Movie::getStar4, Collectors.averagingDouble(Movie::getIMDB_Rating))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
+                Stream<InterEntry> s1 = movieList.stream()
+                        .collect(Collectors.groupingBy(Movie::getStar1, Collectors.averagingDouble(Movie::getIMDB_Rating)))
+                        .entrySet().stream()
+                        .map(entry -> new InterEntry(entry.getKey(), entry.getValue()));
+                Stream<InterEntry> s2 = movieList.stream()
+                        .collect(Collectors.groupingBy(Movie::getStar2, Collectors.averagingDouble(Movie::getIMDB_Rating)))
+                        .entrySet().stream()
+                        .map(entry -> new InterEntry(entry.getKey(), entry.getValue()));
+                Stream<InterEntry> s3 = movieList.stream()
+                        .collect(Collectors.groupingBy(Movie::getStar3, Collectors.averagingDouble(Movie::getIMDB_Rating)))
+                        .entrySet().stream()
+                        .map(entry -> new InterEntry(entry.getKey(), entry.getValue()));
+                Stream<InterEntry> s4 = movieList.stream()
+                        .collect(Collectors.groupingBy(Movie::getStar4, Collectors.averagingDouble(Movie::getIMDB_Rating)))
+                        .entrySet().stream()
+                        .map(entry -> new InterEntry(entry.getKey(), entry.getValue()));
 
-                Set<Map.Entry<String, Double>> resSet = Stream.concat(s1, Stream.concat(s2, Stream.concat(s3, s4))).collect(Collectors.groupingBy(InterEntry::getK, Collectors.averagingDouble(InterEntry::getV))).entrySet();
+                Set<Map.Entry<String, Double>> resSet = Stream
+                        .concat(s1, Stream.concat(s2, Stream.concat(s3, s4)))
+                        .collect(Collectors.groupingBy(InterEntry::getK, Collectors.averagingDouble(InterEntry::getV)))
+                        .entrySet();
 
-                Stream<InterEntry> resS = resSet.stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()))
+                Stream<InterEntry> resS = resSet.stream()
+                        .map(e -> new InterEntry(e.getKey(), e.getValue()))
                         .sorted(Comparator.comparingDouble(InterEntry::getV).reversed().thenComparing(InterEntry::getK));
-                Stream<InterEntry> resS2 = resSet.stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()))
-                        .sorted(Comparator.comparingDouble(InterEntry::getV).reversed().thenComparing(InterEntry::getK));
-
-//                double lim = resS.mapToDouble(InterEntry-> InterEntry.getV()).limit(top_k+1).toArray()[top_k];
-
-//                return resS2.filter(interEntry -> interEntry.getV() >= lim).map(InterEntry::getK).toList();
-                return resS2.limit(top_k).map(InterEntry::getK).toList();
+                return resS.limit(top_k).map(InterEntry::getK).toList();
 
             case "gross":
-                Stream<InterEntry> s5 = movieList.stream().filter(movie -> movie.getGross() != -1L).collect(Collectors.groupingBy(Movie::getStar1, Collectors.averagingLong(Movie::getGross))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s6 = movieList.stream().filter(movie -> movie.getGross() != -1L).collect(Collectors.groupingBy(Movie::getStar2, Collectors.averagingLong(Movie::getGross))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s7 = movieList.stream().filter(movie -> movie.getGross() != -1L).collect(Collectors.groupingBy(Movie::getStar3, Collectors.averagingLong(Movie::getGross))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
-                Stream<InterEntry> s8 = movieList.stream().filter(movie -> movie.getGross() != -1L).collect(Collectors.groupingBy(Movie::getStar4, Collectors.averagingLong(Movie::getGross))).entrySet().stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()));
+                Stream<InterEntry> s5 = movieList.stream().filter(movie -> movie.getGross() != -1L)
+                        .collect(Collectors.groupingBy(Movie::getStar1, Collectors.averagingLong(Movie::getGross)))
+                        .entrySet().stream().map(e -> new InterEntry(e.getKey(), e.getValue()));
+                Stream<InterEntry> s6 = movieList.stream().filter(movie -> movie.getGross() != -1L)
+                        .collect(Collectors.groupingBy(Movie::getStar2, Collectors.averagingLong(Movie::getGross)))
+                        .entrySet().stream().map(e -> new InterEntry(e.getKey(), e.getValue()));
+                Stream<InterEntry> s7 = movieList.stream().filter(movie -> movie.getGross() != -1L)
+                        .collect(Collectors.groupingBy(Movie::getStar3, Collectors.averagingLong(Movie::getGross)))
+                        .entrySet().stream().map(e -> new InterEntry(e.getKey(), e.getValue()));
+                Stream<InterEntry> s8 = movieList.stream().filter(movie -> movie.getGross() != -1L)
+                        .collect(Collectors.groupingBy(Movie::getStar4, Collectors.averagingLong(Movie::getGross)))
+                        .entrySet().stream().map(e -> new InterEntry(e.getKey(), e.getValue()));
 
-                Set<Map.Entry<String, Double>> resSetg = Stream.concat(s5, Stream.concat(s6, Stream.concat(s7, s8))).collect(Collectors.groupingBy(InterEntry::getK, Collectors.averagingDouble(InterEntry::getV))).entrySet();
+                Set<Map.Entry<String, Double>> resSetg = Stream
+                        .concat(s5, Stream.concat(s6, Stream.concat(s7, s8)))
+                        .collect(Collectors.groupingBy(InterEntry::getK, Collectors.averagingDouble(InterEntry::getV)))
+                        .entrySet();
 
-                Stream<InterEntry> resSg = resSetg.stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()))
-                        .sorted(Comparator.comparingDouble(InterEntry::getV).reversed().thenComparing(InterEntry::getK));
-                Stream<InterEntry> resS2g = resSetg.stream().map(stringDoubleEntry -> new InterEntry(stringDoubleEntry.getKey(), stringDoubleEntry.getValue()))
+                Stream<InterEntry> resS2g = resSetg.stream().map(e -> new InterEntry(e.getKey(), e.getValue()))
                         .sorted(Comparator.comparingDouble(InterEntry::getV).reversed().thenComparing(InterEntry::getK));
                 return resS2g.limit(top_k).map(InterEntry::getK).toList();
             default:
@@ -271,13 +298,10 @@ public class MovieAnalyzer {
     }
 
     public List<String> searchMovies(String genre, float min_rating, int max_runtime) {
-        return movieList.stream().filter(movie -> movie.getGenre().contains(genre) && movie.getIMDB_Rating() >= min_rating && movie.getRuntime() <= max_runtime).map(Movie::getSeries_Title).sorted().toList();
+        return movieList.stream()
+                .filter(movie -> movie.getGenre().contains(genre)
+                        && movie.getIMDB_Rating() >= min_rating
+                        && movie.getRuntime() <= max_runtime)
+                .map(Movie::getSeries_Title).sorted().toList();
     }
 }
-
-//class MyTest {
-//    public static void main(String[] args) {
-//        String data_path = "resources/imdb_top_500.csv";
-//        MovieAnalyzer movieAnalyzer = new MovieAnalyzer(data_path);
-//    }
-//}
